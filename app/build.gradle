@@ -1,0 +1,21 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.brendler.gpsfake'
+    compileSdk 34
+    defaultConfig {
+        applicationId 'com.brendler.gpsfake'
+        minSdk 23
+        targetSdk 34
+        versionCode 6
+        versionName '1.5'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+}

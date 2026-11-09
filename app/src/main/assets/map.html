@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<style>
+/*LEAFLET_CSS*/
+html, body, #map { height: 100%; margin: 0; padding: 0; background: #EDE7F8; }
+.pin { width: 34px; height: 46px; }
+.pin svg { width: 34px; height: 46px; filter: drop-shadow(0 2px 2px rgba(0,0,0,.35)); }
+.leaflet-control-attribution { font-size: 10px; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+/*LEAFLET_JS*/
+</script>
+<script>
+var map = L.map('map', { zoomControl: true, attributionControl: true }).setView([-15.78, -47.93], 4);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '&copy; OpenStreetMap'
+}).addTo(map);
+
+function pinIcon(active) {
+  var c = active ? '#B45309' : '#5B21B6';
+  var svg = '<svg viewBox="0 0 34 46" xmlns="http://www.w3.org/2000/svg">' +
+    '<path d="M17 45 C17 45 2 27 2 17 A15 15 0 0 1 32 17 C32 27 17 45 17 45Z" fill="' + c + '" stroke="#fff" stroke-width="2"/>' +
+    '<circle cx="17" cy="17" r="6" fill="#fff"/></svg>';
+  return L.divIcon({ className: 'pin', html: svg, iconSize: [34, 46], iconAnchor: [17, 45] });
+}
+
+var marker = null, active = false, circle = null;
+
+function notify(lat, lng) {
+  if (window.Android) Android.onMapClick(lat, lng);
+}
+
+function placeMarker(lat, lng) {
+  if (!marker) {
+    marker = L.marker([lat, lng], { icon: pinIcon(active), draggable: true }).addTo(map);
+    marker.on('dragend', function () {
+      var p = marker.getLatLng();
+      notify(p.lat, p.lng);
+    });
+  } else {
+    marker.setLatLng([lat, lng]);
+  }
+  if (circle) circle.setLatLng([lat, lng]);
+}
+
+map.on('click', function (e) {
+  placeMarker(e.latlng.lat, e.latlng.lng);
+  notify(e.latlng.lat, e.latlng.lng);
+});
+
+// Chamadas vindas do app
+function setPoint(lat, lng, zoom) {
+  placeMarker(lat, lng);
+  if (zoom && zoom > 0) map.setView([lat, lng], zoom);
+  else map.panTo([lat, lng]);
+}
+
+function setActive(a) {
+  active = !!a;
+  if (marker) marker.setIcon(pinIcon(active));
+  if (active && marker) {
+    if (!circle) circle = L.circle(marker.getLatLng(), { radius: 25, color: '#B45309', weight: 2, fillOpacity: 0.15 }).addTo(map);
+  } else if (circle) {
+    map.removeLayer(circle); circle = null;
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Brendler GPS Fake</string>
+
+    <color name="purple">#5B21B6</color>
+    <color name="purple_dark">#4C1D95</color>
+    <color name="orange">#B45309</color>
+    <color name="bg">#F7F5FB</color>
+    <color name="text">#1F1A2E</color>
+    <color name="muted">#6B6680</color>
+    <color name="white">#FFFFFF</color>
+
+    <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/purple</item>
+        <item name="android:colorPrimaryDark">@color/purple_dark</item>
+        <item name="android:colorAccent">@color/orange</item>
+        <item name="android:statusBarColor">@color/purple_dark</item>
+        <item name="android:windowBackground">@color/bg</item>
+    </style>
+
+    <style name="LightBtn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/btn_light</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:padding">0dp</item>
+    </style>
+</resources>
